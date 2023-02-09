@@ -4,7 +4,7 @@ import (
 	"fmt"
 	tea "github.com/charmbracelet/bubbletea"
 	"github.com/charmbracelet/glamour"
-	// "github.com/charmbracelet/lipgloss"
+	"github.com/charmbracelet/lipgloss"
 
 	"os"
 )
@@ -55,42 +55,35 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 func (m model) View() string {
 	// The header
 
-	// s := "@slee 2023\n\n"
-	s := ""
 	title, _ := glamour.Render("# @slee 2023", "dark")
-	fmt.Print(title)
+	s := title
 
-	// Iterate over our choices
+	var labelStyle = lipgloss.NewStyle().Foreground(lipgloss.Color("#888888"))
 
-	// for i, choice := range m.choices {
 	for j := 0; j < 7; j++ {
 		switch j {
 		case 0:
-
-			s += "S "
+			s += labelStyle.Render("S ")
 		case 1:
-
-			s += "M "
+			s += labelStyle.Render("M ")
 		case 2:
-
-			s += "T "
+			s += labelStyle.Render("T ")
 		case 3:
-
-			s += "W "
+			s += labelStyle.Render("W ")
 		case 4:
-
-			s += "T "
+			s += labelStyle.Render("T ")
 		case 5:
-
-			s += "F "
+			s += labelStyle.Render("F ")
 		case 6:
-
-			s += "S "
+			s += labelStyle.Render("S ")
 		}
 
+		var boxSelectedStyle = lipgloss.NewStyle().
+			PaddingRight(1).
+			// Background(lipgloss.Color("#04B575")).
+			Foreground(lipgloss.Color("#04B575"))
 		for i := 0; i < 52; i++ {
-
-			s += "▓"
+			s += boxSelectedStyle.Render("▓")
 		}
 		s += "\n"
 	}

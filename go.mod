@@ -5,6 +5,7 @@ go 1.19
 require (
 	github.com/charmbracelet/bubbletea v0.23.2
 	github.com/charmbracelet/glamour v0.6.0
+	github.com/charmbracelet/lipgloss v0.6.0
 )
 
 require (
