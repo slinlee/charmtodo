@@ -3,7 +3,9 @@ package main
 import (
 	"fmt"
 	tea "github.com/charmbracelet/bubbletea"
-	lipgloss "github.com/charmbracelet/lipgloss"
+	"github.com/charmbracelet/glamour"
+	// "github.com/charmbracelet/lipgloss"
+
 	"os"
 )
 
@@ -53,7 +55,10 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 func (m model) View() string {
 	// The header
 
-	s := "@slee 2023\n\n"
+	// s := "@slee 2023\n\n"
+	s := ""
+	title, _ := glamour.Render("# @slee 2023", "dark")
+	fmt.Print(title)
 
 	// Iterate over our choices
 
@@ -85,7 +90,7 @@ func (m model) View() string {
 
 		for i := 0; i < 52; i++ {
 
-			s += " x "
+			s += "▓"
 		}
 		s += "\n"
 	}
