@@ -83,7 +83,7 @@ func (m model) View() string {
 			// Background(lipgloss.Color("#04B575")).
 			Foreground(lipgloss.Color("#04B575"))
 		for i := 0; i < 52; i++ {
-			s += boxSelectedStyle.Render("▓")
+			s += boxSelectedStyle.Render("■")
 		}
 		s += "\n"
 	}
