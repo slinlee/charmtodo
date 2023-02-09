@@ -52,23 +52,41 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 func (m model) View() string {
 	// The header
 
-	s := "What should we buy at the market?\n\n"
+	s := "@slee 2023\n\n"
 
 	// Iterate over our choices
 
-	for i, choice := range m.choices {
-		cursor := " "
-		if m.cursor == i {
-			cursor = ">"
+	// for i, choice := range m.choices {
+	for j := 0; j < 7; j++ {
+		switch j {
+		case 0:
+
+			s += "S "
+		case 1:
+
+			s += "M "
+		case 2:
+
+			s += "T "
+		case 3:
+
+			s += "W "
+		case 4:
+
+			s += "T "
+		case 5:
+
+			s += "F "
+		case 6:
+
+			s += "S "
 		}
 
-		checked := " "
-		if _, ok := m.selected[i]; ok {
-			checked = "x"
+		for i := 0; i < 52; i++ {
+
+			s += " x "
 		}
-
-		s += fmt.Sprintf("%s [%s] %s\n", cursor, checked, choice)
-
+		s += "\n"
 	}
 
 	// The footer
