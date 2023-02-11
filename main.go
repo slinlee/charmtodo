@@ -10,16 +10,14 @@ import (
 )
 
 type model struct {
-	choices  []string
-	cursor   int
-	selected map[int]struct{}
+	selectedX int
+	selectedY int
 }
 
 func initialModel() model {
 	return model{
-		choices: []string{"buy a", "buy b", "buy c"},
-
-		selected: make(map[int]struct{}),
+		selectedX: 0,
+		selectedY: 0,
 	}
 }
 
@@ -32,21 +30,23 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 		case "ctrl+c", "q":
 			return m, tea.Quit
 		case "up", "k":
-			if m.cursor > 0 {
-				m.cursor--
+			if m.selectedY > 0 {
+				m.selectedY--
 			}
 
 		case "down", "j":
-			if m.cursor < len(m.choices)-1 {
-				m.cursor++
+			if m.selectedY < 6 {
+				m.selectedY++
+			}
+		case "right", "l":
+			if m.selectedX < 51 {
+				m.selectedX++
+			}
+		case "left", "h":
+			if m.selectedX > 0 {
+				m.selectedX--
 			}
 		case "enter", " ":
-			_, ok := m.selected[m.cursor]
-			if ok {
-				delete(m.selected, m.cursor)
-			} else {
-				m.selected[m.cursor] = struct{}{}
-			}
 		}
 	}
 	return m, nil
@@ -78,12 +78,20 @@ func (m model) View() string {
 			s += labelStyle.Render("S ")
 		}
 
-		var boxSelectedStyle = lipgloss.NewStyle().
+		var boxStyle = lipgloss.NewStyle().
 			PaddingRight(1).
-			// Background(lipgloss.Color("#04B575")).
 			Foreground(lipgloss.Color("#04B575"))
+		var boxSelectedStyle = lipgloss.NewStyle().
+			Background(lipgloss.Color("#ff9999")).
+			PaddingRight(1).
+			Foreground(lipgloss.Color("#04B575"))
+
 		for i := 0; i < 52; i++ {
-			s += boxSelectedStyle.Render("■")
+			if m.selectedX == i && m.selectedY == j {
+				s += boxSelectedStyle.Render("■")
+			} else {
+				s += boxStyle.Render("■")
+			}
 		}
 		s += "\n"
 	}
