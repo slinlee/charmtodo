@@ -2,4 +2,4 @@
 
 The CLI/TUI interface for S0BR.
 
-![Demo Gif](out.gif)
+![Demo Gif](demo.gif)
