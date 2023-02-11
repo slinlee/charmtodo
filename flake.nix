@@ -14,6 +14,8 @@
             pkgs.go
             pkgs.gopls
             pkgs.delve
+            pkgs.vhs
+            pkgs.chromium
           ];
         };
       });
