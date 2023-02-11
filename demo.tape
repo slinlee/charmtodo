@@ -1,4 +1,6 @@
 Output demo.gif
+Set TypingSpeed 125ms
+Set Shell fish
 
 Type "go run ."
 

@@ -81,8 +81,9 @@ func (m model) View() string {
 		var boxStyle = lipgloss.NewStyle().
 			PaddingRight(1).
 			Foreground(lipgloss.Color("#04B575"))
+
 		var boxSelectedStyle = lipgloss.NewStyle().
-			Background(lipgloss.Color("#ff9999")).
+			Background(lipgloss.Color("#9999ff")).
 			PaddingRight(1).
 			Foreground(lipgloss.Color("#04B575"))
 
