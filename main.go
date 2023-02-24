@@ -24,12 +24,6 @@ var scaleColors = []string{
 	// #216e39 - More
 
 	// Dark Theme
-	// #161b22 - Less
-	// #0e4429
-	// #006d32
-	// #26a641
-	// #39d353 - More
-
 	"#161b22", // Less
 	"#0e4429",
 	"#006d32",
