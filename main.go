@@ -24,12 +24,6 @@ var scaleColors = []string{
 	// #216e39 - More
 
 	// Dark Theme
-	// #161b22 - Less
-	// #0e4429
-	// #006d32
-	// #26a641
-	// #39d353 - More
-
 	"#161b22", // Less
 	"#0e4429",
 	"#006d32",
@@ -38,81 +32,59 @@ var scaleColors = []string{
 
 }
 
-// var calData = []{
-
-//         { date: new Date("2023, 2, 10"), value: 1.0 },
-//         { date: new Date("2023, 2, 11"), value: 1.0 },
-//         { date: new Date("2023, 2, 12"), value: 1.0 },
-//         { date: new Date("2023, 2, 13"), value: 1.0 },
-//         { date: new Date("2023, 2, 14"), value: 1.0 },
-//         { date: new Date("2023, 2, 15"), value: 1.0 },
-//         { date: new Date("2023, 2, 16"), value: 1.0 },
-//         { date: new Date("2023, 2, 17"), value: 1.0 },
-//         { date: new Date("2023, 2, 18"), value: 1.0 },
-//         { date: new Date("2023, 2, 19"), value: 1.0 },
-//         { date: new Date("2023, 2, 20"), value: 1.0 },
-//         { date: new Date("2023, 2, 21"), value: 1.0 },
-//         { date: new Date("2023, 2, 22"), value: 1.0 },
-//         { date: new Date("2023, 2, 23"), value: 1.0 },
-//         { date: new Date("2023, 2, 24"), value: 1.0 },
-// }
-
-var viewDataMock = [52][7]float64{
-	{0.0, 1.0, 0.2, 0.3, 0.4, 0.5, 0.6},
-	{0.0, 0.8, 0.2, 0.3, 0.4, 0.5, 0.6},
-	{0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6},
-	{0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6},
-	{0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6},
-	{0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6},
-	{0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6},
-	{0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6},
-	{0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6},
-	{0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6},
-	{0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6},
-	{0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6},
-	{0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6},
-	{0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6},
-	{0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6},
-	{0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6},
-	{0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6},
-	{0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6},
-	{0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6},
-	{0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6},
-	{0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6},
-	{0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6},
-	{0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6},
-	{0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6},
-	{0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6},
-	{0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6},
-	{0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6},
-	{0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6},
-	{0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6},
-	{0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6},
-	{0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6},
-	{0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6},
-	{0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6},
-	{0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6},
-	{0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6},
-	{0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6},
-	{0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6},
-	{0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6},
-	{0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6},
-	{0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6},
-	{0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6},
-	{0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6},
-	{0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6},
-	{0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6},
-	{0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6},
-	{0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6},
-	{0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6},
-	{0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6},
-	{0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6},
-	{0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6},
-	{0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6},
-	{0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6},
+type CalDataPoint struct {
+	date  time.Time
+	value float64
 }
 
-// func normalizeData
+var calDataMock = []CalDataPoint{
+
+	{date: time.Now(), value: 1.0},
+	{date: time.Now().AddDate(0, 0, -1), value: 0.30},
+	{date: time.Now().AddDate(0, 0, -5), value: 0.10},
+	{date: time.Now().AddDate(0, 0, -5), value: 0.20},
+	{date: time.Now().AddDate(0, 0, -15), value: 0.60},
+	{date: time.Now().AddDate(0, 0, -50), value: 0.60},
+	// {date: time.Date(2023, 2, 11, 0, 0, 0, 0), value: 1.0},
+	// {date: time.create("2023, 2, 12"), value: 1.0},
+	// {date: time.create("2023, 2, 13"), value: 1.0},
+	// {date: time.create("2023, 2, 14"), value: 1.0},
+	// {date: time.create("2023, 2, 15"), value: 1.0},
+	// {date: time.create("2023, 2, 16"), value: 1.0},
+	// {date: time.create("2023, 2, 17"), value: 1.0},
+	// {date: time.create("2023, 2, 18"), value: 1.0},
+	// {date: time.create("2023, 2, 19"), value: 1.0},
+	// {date: time.create("2023, 2, 20"), value: 1.0},
+	// {date: time.create("2023, 2, 21"), value: 1.0},
+	// {date: time.create("2023, 2, 22"), value: 1.0},
+	// {date: time.create("2023, 2, 23"), value: 1.0},
+	// {date: time.create("2023, 2, 24"), value: 1.0},
+}
+
+func getDateIndex(date time.Time) (int, int) {
+
+	// calculate index
+	today := time.Now()
+
+	// How many weeks ago is this day
+	difference := int(today.Sub(date).Hours() / 24 / 7)
+
+	dayOfWeek := int(date.Weekday())
+
+	x := 52 - difference - 1
+
+	return x, dayOfWeek
+}
+
+func parseCalToView(calData []CalDataPoint) {
+	for i, v := range calData {
+		x, y := getDateIndex(v.date)
+		fmt.Println(i, v.date.Weekday(), int(v.date.Weekday()), x, y)
+		viewData[x][y] += v.value
+	}
+}
+
+var viewData [52][7]float64
 
 func getScaleColor(value float64) string {
 	const numColors = 5
@@ -201,14 +173,14 @@ func (m model) View() string {
 				s += boxSelectedStyle.Copy().Foreground(
 					lipgloss.Color(
 						getScaleColor(
-							viewDataMock[i][j]))).
+							viewData[i][j]))).
 					Render("■")
 			} else {
 				s += boxStyle.Copy().
 					Foreground(
 						lipgloss.Color(
 							getScaleColor(
-								viewDataMock[i][j]))).
+								viewData[i][j]))).
 					Render("■")
 			}
 		}
@@ -224,6 +196,7 @@ func (m model) View() string {
 }
 
 func main() {
+	parseCalToView(calDataMock)
 	p := tea.NewProgram(initialModel())
 	if _, err := p.Run(); err != nil {
 		fmt.Printf("Alas, there's been an error: %v", err)
