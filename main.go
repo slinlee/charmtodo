@@ -38,6 +38,41 @@ var scaleColors = []string{
 
 }
 
+// var calData = []{
+
+//         { date: new Date("2023, 2, 10"), value: 1.0 },
+//         { date: new Date("2023, 2, 11"), value: 1.0 },
+//         { date: new Date("2023, 2, 12"), value: 1.0 },
+//         { date: new Date("2023, 2, 13"), value: 1.0 },
+//         { date: new Date("2023, 2, 14"), value: 1.0 },
+//         { date: new Date("2023, 2, 15"), value: 1.0 },
+//         { date: new Date("2023, 2, 16"), value: 1.0 },
+//         { date: new Date("2023, 2, 17"), value: 1.0 },
+//         { date: new Date("2023, 2, 18"), value: 1.0 },
+//         { date: new Date("2023, 2, 19"), value: 1.0 },
+//         { date: new Date("2023, 2, 20"), value: 1.0 },
+//         { date: new Date("2023, 2, 21"), value: 1.0 },
+//         { date: new Date("2023, 2, 22"), value: 1.0 },
+//         { date: new Date("2023, 2, 23"), value: 1.0 },
+//         { date: new Date("2023, 2, 24"), value: 1.0 },
+// }
+
+var viewDataMock = [52][7]float32{
+	{0.0},
+	{0.1},
+	{0.2},
+	{0.3},
+	{0.4},
+	{0.5},
+	{0.6},
+}
+
+// func normalizeData
+
+func getScaleColor(value float32) string {
+	return scaleColors[int(value*10)%5]
+}
+
 func initialModel() model {
 	return model{
 		selectedX: 0,
@@ -114,9 +149,14 @@ func (m model) View() string {
 
 		for i := 0; i < 52; i++ {
 			if m.selectedX == i && m.selectedY == j {
-				s += boxSelectedStyle.Render("■")
+				s += boxSelectedStyle.Copy().Foreground(
+					lipgloss.Color(getScaleColor(viewDataMock[i][j]))).Render("■")
 			} else {
-				s += boxStyle.Render("■")
+				s += boxStyle.Copy().
+					Foreground(
+						lipgloss.Color(
+							getScaleColor(viewDataMock[i][j]))).
+					Render("■")
 			}
 		}
 		s += "\n"
