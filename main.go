@@ -90,10 +90,9 @@ func (m model) View() string {
 		PaddingRight(1).
 		Foreground(lipgloss.Color(scaleColors[2]))
 
-	var boxSelectedStyle = lipgloss.NewStyle().
+	var boxSelectedStyle = boxStyle.Copy().
 		Background(lipgloss.Color("#9999ff")).
-		PaddingRight(1).
-		Foreground(lipgloss.Color(scaleColors[2]))
+		Foreground(lipgloss.Color(scaleColors[0]))
 
 	for j := 0; j < 7; j++ {
 		switch j {
