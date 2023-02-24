@@ -40,11 +40,12 @@ type CalDataPoint struct {
 var calDataMock = []CalDataPoint{
 
 	{date: time.Now(), value: 1.0},
-	{date: time.Now().AddDate(0, 0, -1), value: 0.60},
-	{date: time.Now().AddDate(0, 0, -5), value: 0.60},
+	{date: time.Now().AddDate(0, 0, -1), value: 0.30},
+	{date: time.Now().AddDate(0, 0, -5), value: 0.10},
+	{date: time.Now().AddDate(0, 0, -5), value: 0.20},
 	{date: time.Now().AddDate(0, 0, -15), value: 0.60},
 	{date: time.Now().AddDate(0, 0, -50), value: 0.60},
-	// {date: time.create("2023, 2, 11"), value: 1.0},
+	// {date: time.Date(2023, 2, 11, 0, 0, 0, 0), value: 1.0},
 	// {date: time.create("2023, 2, 12"), value: 1.0},
 	// {date: time.create("2023, 2, 13"), value: 1.0},
 	// {date: time.create("2023, 2, 14"), value: 1.0},
@@ -79,7 +80,7 @@ func parseCalToView(calData []CalDataPoint) {
 	for i, v := range calData {
 		x, y := getDateIndex(v.date)
 		fmt.Println(i, v.date.Weekday(), int(v.date.Weekday()), x, y)
-		viewData[x][y] = v.value
+		viewData[x][y] += v.value
 	}
 }
 
