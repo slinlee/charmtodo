@@ -57,8 +57,10 @@ func (m model) View() string {
 	// The header
 
 	theTime := time.Now()
+	// theTime = theTime.AddDate(0, 0, -15)
+	// theTime = theTime.Weekday
 
-	title, _ := glamour.Render(theTime.Format("# 2006-1-2"), "dark")
+	title, _ := glamour.Render(theTime.Format("# Monday, 2006-1-2"), "dark")
 	s := title
 
 	var labelStyle = lipgloss.NewStyle().Foreground(lipgloss.Color("#888888"))
