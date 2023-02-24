@@ -7,6 +7,7 @@ import (
 	"github.com/charmbracelet/lipgloss"
 
 	"os"
+	"time"
 )
 
 type model struct {
@@ -55,7 +56,9 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 func (m model) View() string {
 	// The header
 
-	title, _ := glamour.Render("# @slee 2023", "dark")
+	theTime := time.Now()
+
+	title, _ := glamour.Render(theTime.Format("# Monday, 2006-1-2"), "dark")
 	s := title
 
 	var labelStyle = lipgloss.NewStyle().Foreground(lipgloss.Color("#888888"))
