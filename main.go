@@ -64,9 +64,15 @@ func getDateIndex(date time.Time) (int, int) {
 
 	// calculate index
 	today := time.Now()
-	dayOfWeek := int(today.Weekday())
 
-	return 1, 1
+	// How many weeks ago is this day
+	difference := int(today.Sub(date).Hours() / 24 / 7)
+
+	dayOfWeek := int(date.Weekday())
+
+	x := 52 - difference - 1
+
+	return x, dayOfWeek
 }
 
 func parseCalToView(calData []CalDataPoint) {
