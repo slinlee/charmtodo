@@ -15,6 +15,29 @@ type model struct {
 	selectedY int
 }
 
+var scaleColors = []string{
+	// Light Theme
+	// #ebedf0 - Less
+	// #9be9a8
+	// #40c463
+	// #30a14e
+	// #216e39 - More
+
+	// Dark Theme
+	// #161b22 - Less
+	// #0e4429
+	// #006d32
+	// #26a641
+	// #39d353 - More
+
+	"#161b22", // Less
+	"#0e4429",
+	"#006d32",
+	"#26a641",
+	"#39d353", // - More
+
+}
+
 func initialModel() model {
 	return model{
 		selectedX: 0,
@@ -63,6 +86,14 @@ func (m model) View() string {
 
 	var labelStyle = lipgloss.NewStyle().Foreground(lipgloss.Color("#888888"))
 
+	var boxStyle = lipgloss.NewStyle().
+		PaddingRight(1).
+		Foreground(lipgloss.Color(scaleColors[2]))
+
+	var boxSelectedStyle = boxStyle.Copy().
+		Background(lipgloss.Color("#9999ff")).
+		Foreground(lipgloss.Color(scaleColors[0]))
+
 	for j := 0; j < 7; j++ {
 		switch j {
 		case 0:
@@ -80,15 +111,6 @@ func (m model) View() string {
 		case 6:
 			s += labelStyle.Render("S ")
 		}
-
-		var boxStyle = lipgloss.NewStyle().
-			PaddingRight(1).
-			Foreground(lipgloss.Color("#04B575"))
-
-		var boxSelectedStyle = lipgloss.NewStyle().
-			Background(lipgloss.Color("#9999ff")).
-			PaddingRight(1).
-			Foreground(lipgloss.Color("#04B575"))
 
 		for i := 0; i < 52; i++ {
 			if m.selectedX == i && m.selectedY == j {
