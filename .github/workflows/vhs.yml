@@ -1,8 +1,5 @@
 name: vhs
-on:
-  push:
-    paths:
-      - vhs.tape
+on: [push]
 
 jobs:
   vhs:
