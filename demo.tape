@@ -1,6 +1,7 @@
 Output demo.gif
 Set TypingSpeed 125ms
 Set Shell fish
+Set Width 1600
 
 Type "go run ."
 
