@@ -1,7 +1,10 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
+	"io/ioutil"
+	"log"
 
 	tea "github.com/charmbracelet/bubbletea"
 	"github.com/charmbracelet/glamour"
@@ -34,34 +37,11 @@ var scaleColors = []string{
 }
 
 type CalDataPoint struct {
-	date  time.Time
-	value float64
+	Date  time.Time
+	Value float64
 }
 
-var calDataMock = []CalDataPoint{
-
-	{date: time.Now(), value: 0.75},
-	{date: time.Now().AddDate(0, 0, -1), value: 0.30},
-	{date: time.Now().AddDate(0, 0, -5), value: 0.10},
-	{date: time.Now().AddDate(0, 0, -5), value: 0.20},
-	{date: time.Now().AddDate(0, 0, -15), value: 0.60},
-	{date: time.Now().AddDate(0, 0, -50), value: 0.60},
-	{date: time.Now().AddDate(-1, 1, 0), value: 0.90},
-	// {date: time.Date(2023, 2, 11, 0, 0, 0, 0), value: 1.0},
-	// {date: time.create("2023, 2, 12"), value: 1.0},
-	// {date: time.create("2023, 2, 13"), value: 1.0},
-	// {date: time.create("2023, 2, 14"), value: 1.0},
-	// {date: time.create("2023, 2, 15"), value: 1.0},
-	// {date: time.create("2023, 2, 16"), value: 1.0},
-	// {date: time.create("2023, 2, 17"), value: 1.0},
-	// {date: time.create("2023, 2, 18"), value: 1.0},
-	// {date: time.create("2023, 2, 19"), value: 1.0},
-	// {date: time.create("2023, 2, 20"), value: 1.0},
-	// {date: time.create("2023, 2, 21"), value: 1.0},
-	// {date: time.create("2023, 2, 22"), value: 1.0},
-	// {date: time.create("2023, 2, 23"), value: 1.0},
-	// {date: time.create("2023, 2, 24"), value: 1.0},
-}
+var calData []CalDataPoint
 
 func getDateIndex(date time.Time) (int, int) {
 
@@ -80,8 +60,8 @@ func getDateIndex(date time.Time) (int, int) {
 
 func parseCalToView(calData []CalDataPoint) {
 	for _, v := range calData {
-		x, y := getDateIndex(v.date)
-		viewData[x][y] += v.value
+		x, y := getDateIndex(v.Date)
+		viewData[x][y] += v.Value
 	}
 	normalizeViewData()
 }
@@ -227,7 +207,28 @@ func (m model) View() string {
 }
 
 func main() {
-	parseCalToView(calDataMock)
+	// Get Data from File
+	content, err := ioutil.ReadFile("./s0br.json")
+	if err != nil {
+		log.Fatal("Error when opening file: ", err)
+	}
+
+	err = json.Unmarshal(content, &calData)
+	if err != nil {
+		log.Fatal("Error during Unmarshall(): ", err)
+	}
+
+	// Parse Data
+	parseCalToView(calData)
+
+	// ** To save a file
+	// file, err := json.MarshalIndent(calDataMock, "", " ")
+	// if err != nil {
+	// 	fmt.Printf("Alas, there's been an error: %v", err)
+	// 	os.Exit(1)
+	// }
+	// _ = ioutil.WriteFile("test.json", file, 0644)
+
 	p := tea.NewProgram(initialModel())
 	if _, err := p.Run(); err != nil {
 		fmt.Printf("Alas, there's been an error: %v", err)
