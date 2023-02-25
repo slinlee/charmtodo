@@ -3,13 +3,11 @@ package main
 import (
 	"encoding/json"
 	"fmt"
-	"io/ioutil"
-	"log"
-
 	tea "github.com/charmbracelet/bubbletea"
+	charmfs "github.com/charmbracelet/charm/fs"
 	"github.com/charmbracelet/glamour"
 	"github.com/charmbracelet/lipgloss"
-
+	"log"
 	"os"
 	"time"
 )
@@ -65,19 +63,28 @@ func getIndexDate(x int, y int) time.Time {
 
 func saveToFile() {
 
-	// ** To save a file
-	file, err := json.MarshalIndent(calData, "", " ")
-	if err != nil {
-		fmt.Printf("Alas, there's been an error: %v", err)
-		os.Exit(1)
-	}
-	_ = ioutil.WriteFile("s0br.json", file, 0644)
+	// cfs, err := charmfs.NewFS()
+	// if err != nil {
+	// log.Fatal(err)
+	// }
+
+	// // ** To save a file
+	// file, err := json.MarshalIndent(calData, "", " ")
+	// if err != nil {
+	// 	fmt.Printf("Alas, there's been an error: %v", err)
+	// 	os.Exit(1)
+	// }
+	// _ = cfs.WriteFile("s0br.json", file)
 }
 
 func readFromFile() {
+	cfs, err := charmfs.NewFS()
+	if err != nil {
+		log.Fatal(err)
+	}
 
 	// Get Data from File
-	content, err := ioutil.ReadFile("./s0br.json")
+	content, err := cfs.ReadFile("s0br.json")
 	if err != nil {
 		log.Fatal("Error when opening file: ", err)
 	}
