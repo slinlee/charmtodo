@@ -46,6 +46,7 @@ var calDataMock = []CalDataPoint{
 	{date: time.Now().AddDate(0, 0, -5), value: 0.20},
 	{date: time.Now().AddDate(0, 0, -15), value: 0.60},
 	{date: time.Now().AddDate(0, 0, -50), value: 0.60},
+	{date: time.Now().AddDate(-1, 1, 0), value: 0.90},
 	// {date: time.Date(2023, 2, 11, 0, 0, 0, 0), value: 1.0},
 	// {date: time.create("2023, 2, 12"), value: 1.0},
 	// {date: time.create("2023, 2, 13"), value: 1.0},
