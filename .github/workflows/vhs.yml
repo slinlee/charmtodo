@@ -6,9 +6,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - uses: charmbracelet/vhs-action@v1
+      - uses: charmbracelet/vhs-action@latest
         with:
-          path: 'demo.tape'
+          path: '/demo.tape'
       - uses: stefanzweifel/git-auto-commit-action@v4
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
