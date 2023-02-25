@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+
 	tea "github.com/charmbracelet/bubbletea"
 	"github.com/charmbracelet/glamour"
 	"github.com/charmbracelet/lipgloss"
@@ -39,7 +40,7 @@ type CalDataPoint struct {
 
 var calDataMock = []CalDataPoint{
 
-	{date: time.Now(), value: 1.0},
+	{date: time.Now(), value: 0.75},
 	{date: time.Now().AddDate(0, 0, -1), value: 0.30},
 	{date: time.Now().AddDate(0, 0, -5), value: 0.10},
 	{date: time.Now().AddDate(0, 0, -5), value: 0.20},
@@ -77,10 +78,39 @@ func getDateIndex(date time.Time) (int, int) {
 }
 
 func parseCalToView(calData []CalDataPoint) {
-	for i, v := range calData {
+	for _, v := range calData {
 		x, y := getDateIndex(v.date)
-		fmt.Println(i, v.date.Weekday(), int(v.date.Weekday()), x, y)
 		viewData[x][y] += v.value
+	}
+	normalizeViewData()
+}
+
+func normalizeViewData() {
+	var min float64
+	var max float64
+
+	// Find min/max
+	min = viewData[0][0]
+	max = viewData[0][0]
+
+	for _, row := range viewData {
+		for _, val := range row {
+
+			if val < min {
+				min = val
+			}
+			if val > max {
+				max = val
+			}
+		}
+
+	}
+
+	// Normalize the data
+	for i, row := range viewData {
+		for j, val := range row {
+			viewData[i][j] = (val - min) / (max - min)
+		}
 	}
 }
 
