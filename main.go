@@ -43,6 +43,52 @@ type CalDataPoint struct {
 
 var calData []CalDataPoint
 
+func addCalData(date time.Time, val float64) {
+	// Create new cal data point and add to cal data
+	newPoint := CalDataPoint{date, val}
+	calData = append(calData, newPoint)
+}
+
+func getIndexDate(x int, y int) time.Time {
+	// compare the x,y to today and subtract
+	today := time.Now()
+	todayX, todayY := getDateIndex(today)
+
+	diffX := todayX - x
+	diffY := todayY - y
+
+	diffDays := diffX*7 + diffY
+
+	targetDate := today.AddDate(0, 0, -diffDays)
+	return targetDate
+}
+
+func saveToFile() {
+
+	// ** To save a file
+	file, err := json.MarshalIndent(calData, "", " ")
+	if err != nil {
+		fmt.Printf("Alas, there's been an error: %v", err)
+		os.Exit(1)
+	}
+	_ = ioutil.WriteFile("s0br.json", file, 0644)
+}
+
+func readFromFile() {
+
+	// Get Data from File
+	content, err := ioutil.ReadFile("./s0br.json")
+	if err != nil {
+		log.Fatal("Error when opening file: ", err)
+	}
+
+	err = json.Unmarshal(content, &calData)
+	if err != nil {
+		log.Fatal("Error during Unmarshall(): ", err)
+	}
+
+}
+
 func getDateIndex(date time.Time) (int, int) {
 
 	// calculate index
@@ -119,6 +165,7 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 	case tea.KeyMsg:
 		switch msg.String() {
 		case "ctrl+c", "q":
+			saveToFile()
 			return m, tea.Quit
 		case "up", "k":
 			if m.selectedY > 0 {
@@ -138,6 +185,12 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 				m.selectedX--
 			}
 		case "enter", " ":
+			addCalData(
+				getIndexDate(m.selectedX, m.selectedY),
+
+				1.0)
+			parseCalToView(calData)
+
 		}
 	}
 	return m, nil
@@ -207,27 +260,9 @@ func (m model) View() string {
 }
 
 func main() {
-	// Get Data from File
-	content, err := ioutil.ReadFile("./s0br.json")
-	if err != nil {
-		log.Fatal("Error when opening file: ", err)
-	}
-
-	err = json.Unmarshal(content, &calData)
-	if err != nil {
-		log.Fatal("Error during Unmarshall(): ", err)
-	}
-
+	readFromFile()
 	// Parse Data
 	parseCalToView(calData)
-
-	// ** To save a file
-	// file, err := json.MarshalIndent(calDataMock, "", " ")
-	// if err != nil {
-	// 	fmt.Printf("Alas, there's been an error: %v", err)
-	// 	os.Exit(1)
-	// }
-	// _ = ioutil.WriteFile("test.json", file, 0644)
 
 	p := tea.NewProgram(initialModel())
 	if _, err := p.Run(); err != nil {
