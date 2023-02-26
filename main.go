@@ -199,10 +199,14 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 func (m model) View() string {
 	// The header
 
-	theTime := time.Now()
+	theTime := getIndexDate(m.selectedX, m.selectedY) //time.Now()
 
-	title, _ := glamour.Render(theTime.Format("# Monday, 2006-1-2"), "dark")
+	title, _ := glamour.Render(theTime.Format("# Monday, January 02, 2006"), "dark")
 	s := title
+
+	selectedDetail := "    Value: " + fmt.Sprint(viewData[m.selectedX][m.selectedY]) + "\n\n"
+
+	s += selectedDetail
 
 	var labelStyle = lipgloss.NewStyle().Foreground(lipgloss.Color("#888888"))
 
