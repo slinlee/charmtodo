@@ -218,6 +218,25 @@ func (m model) View() string {
 		Background(lipgloss.Color("#9999ff")).
 		Foreground(lipgloss.Color(scaleColors[0]))
 
+	// Month Labels
+	var currMonth time.Month
+	s += "  "
+	for j := 0; j < 52; j++ {
+		// Check the last day of the week for that column
+		jMonth := getIndexDate(j, 6).Month()
+
+		if currMonth != jMonth {
+			currMonth = jMonth
+			s += labelStyle.Render(getIndexDate(j, 6).Format("Jan") + " ")
+
+			// Skip the length of the label we just added
+			j += 1
+		} else {
+			s += "  "
+		}
+	}
+	s += "\n"
+
 	for j := 0; j < 7; j++ {
 		switch j {
 		case 0:
