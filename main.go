@@ -218,6 +218,12 @@ func (m model) View() string {
 		Background(lipgloss.Color("#9999ff")).
 		Foreground(lipgloss.Color(scaleColors[0]))
 
+	s += "  "
+	for j := 0; j < 52; j++ {
+		s += "M "
+	}
+	s += "\n"
+
 	for j := 0; j < 7; j++ {
 		switch j {
 		case 0:
