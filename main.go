@@ -265,13 +265,19 @@ func (m model) View() string {
 		}
 
 		for i := 0; i < 52; i++ {
+			// Selected Item
 			if m.selectedX == i && m.selectedY == j {
 				s += boxSelectedStyle.Copy().Foreground(
 					lipgloss.Color(
 						getScaleColor(
 							viewData[i][j]))).
 					Render("■")
+			} else if i == 51 &&
+				j > int(time.Now().Weekday()) {
+				// In the future
+				s += boxStyle.Render(" ")
 			} else {
+				// Not Selected Item and not in the future
 				s += boxStyle.Copy().
 					Foreground(
 						lipgloss.Color(
