@@ -190,6 +190,7 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 				m.selectedX--
 			}
 		case "enter", " ":
+			// Hard coded to add a new entry with value `1.0`
 			addCalData(
 				getIndexDate(m.selectedX, m.selectedY),
 
