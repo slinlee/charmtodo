@@ -175,7 +175,10 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 			}
 
 		case "down", "j":
-			if m.selectedY < 6 {
+			// Don't allow user to scroll beyond today
+			if m.selectedY < 6 &&
+				(m.selectedX != 51 ||
+					m.selectedY < int(time.Now().Weekday())) {
 				m.selectedY++
 			}
 		case "right", "l":
