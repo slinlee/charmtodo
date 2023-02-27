@@ -175,11 +175,17 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 			}
 
 		case "down", "j":
-			if m.selectedY < 6 {
+			// Don't allow user to scroll beyond today
+			if m.selectedY < 6 &&
+				(m.selectedX != 51 ||
+					m.selectedY < int(time.Now().Weekday())) {
 				m.selectedY++
 			}
 		case "right", "l":
-			if m.selectedX < 51 {
+			// Don't allow users to scroll beyond today from the previous column
+			if m.selectedX < 50 ||
+				(m.selectedX == 50 &&
+					m.selectedY <= int(time.Now().Weekday())) {
 				m.selectedX++
 			}
 		case "left", "h":
@@ -187,6 +193,7 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 				m.selectedX--
 			}
 		case "enter", " ":
+			// Hard coded to add a new entry with value `1.0`
 			addCalData(
 				getIndexDate(m.selectedX, m.selectedY),
 
@@ -258,13 +265,19 @@ func (m model) View() string {
 		}
 
 		for i := 0; i < 52; i++ {
+			// Selected Item
 			if m.selectedX == i && m.selectedY == j {
 				s += boxSelectedStyle.Copy().Foreground(
 					lipgloss.Color(
 						getScaleColor(
 							viewData[i][j]))).
 					Render("■")
+			} else if i == 51 &&
+				j > int(time.Now().Weekday()) {
+				// In the future
+				s += boxStyle.Render(" ")
 			} else {
+				// Not Selected Item and not in the future
 				s += boxStyle.Copy().
 					Foreground(
 						lipgloss.Color(
