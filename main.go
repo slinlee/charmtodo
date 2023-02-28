@@ -107,7 +107,7 @@ func getDateIndex(date time.Time) (int, int) {
 func parseCalToView(calData []CalDataPoint) {
 	for _, v := range calData {
 		x, y := getDateIndex(v.Date)
-		viewData[x][y] += v.Value
+		viewData[x][y].actual += v.Value
 	}
 	normalizeViewData()
 }
@@ -117,17 +117,17 @@ func normalizeViewData() {
 	var max float64
 
 	// Find min/max
-	min = viewData[0][0]
-	max = viewData[0][0]
+	min = viewData[0][0].actual
+	max = viewData[0][0].actual
 
 	for _, row := range viewData {
 		for _, val := range row {
 
-			if val < min {
-				min = val
+			if val.actual < min {
+				min = val.actual
 			}
-			if val > max {
-				max = val
+			if val.actual > max {
+				max = val.actual
 			}
 		}
 
@@ -136,12 +136,17 @@ func normalizeViewData() {
 	// Normalize the data
 	for i, row := range viewData {
 		for j, val := range row {
-			viewData[i][j] = (val - min) / (max - min)
+			viewData[i][j].normalized = (val.actual - min) / (max - min)
 		}
 	}
 }
 
-var viewData [52][7]float64
+var viewData [52][7]viewDataPoint
+
+type viewDataPoint struct {
+	actual     float64
+	normalized float64
+}
 
 func getScaleColor(value float64) string {
 	const numColors = 5
@@ -213,7 +218,7 @@ func (m model) View() string {
 	title, _ := glamour.Render(theTime.Format("# Monday, January 02, 2006"), "dark")
 	s := title
 
-	selectedDetail := "    Value: " + fmt.Sprint(viewData[m.selectedX][m.selectedY]) + "\n\n"
+	selectedDetail := "    Value: " + fmt.Sprint(viewData[m.selectedX][m.selectedY].actual) + " normalized: " + fmt.Sprint(viewData[m.selectedX][m.selectedY].normalized) + "\n\n"
 
 	s += selectedDetail
 
@@ -270,7 +275,7 @@ func (m model) View() string {
 				s += boxSelectedStyle.Copy().Foreground(
 					lipgloss.Color(
 						getScaleColor(
-							viewData[i][j]))).
+							viewData[i][j].normalized))).
 					Render("■")
 			} else if i == 51 &&
 				j > int(time.Now().Weekday()) {
@@ -282,7 +287,7 @@ func (m model) View() string {
 					Foreground(
 						lipgloss.Color(
 							getScaleColor(
-								viewData[i][j]))).
+								viewData[i][j].normalized))).
 					Render("■")
 			}
 		}
