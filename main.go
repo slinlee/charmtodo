@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"io/ioutil"
 	"log"
+	"math"
 
 	tea "github.com/charmbracelet/bubbletea"
 	"github.com/charmbracelet/glamour"
@@ -95,11 +96,19 @@ func getDateIndex(date time.Time) (int, int) {
 	today := time.Now()
 
 	// How many weeks ago is this day
-	difference := int(today.Sub(date).Hours() / 24 / 7)
-
-	dayOfWeek := int(date.Weekday())
+	// - compared to the 'Sunday' of this week
+	difference := int(math.Ceil(
+		(today.
+			AddDate(0, 0, -int(today.Weekday())). // get the 'Sunday' of this week
+			Sub(date.Local()).Hours() / 24 / 7))) // calculate number of weeks ago
 
 	x := 52 - difference - 1
+
+	if date.Local().Weekday() == time.Sunday {
+		x++
+	}
+
+	dayOfWeek := int(date.Local().Weekday())
 
 	return x, dayOfWeek
 }
