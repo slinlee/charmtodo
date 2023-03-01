@@ -190,6 +190,8 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 			if m.selectedY > 0 {
 				m.selectedY--
 			} else if m.selectedY == 0 && m.selectedX > 0 {
+				// Scroll to the end of the previous week if on Sunday
+				// and not at the beginning of the calendar.
 				m.selectedY = 6
 				m.selectedX--
 			}
@@ -201,6 +203,8 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 					m.selectedY < int(time.Now().Weekday())) {
 				m.selectedY++
 			} else if m.selectedY == 6 && m.selectedX != 51 {
+				// Scroll to the beginning of next week if on Saturday
+				// and not at the end of the calendar.
 				m.selectedY = 0
 				m.selectedX++
 			}
