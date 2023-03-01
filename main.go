@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"io/ioutil"
 	"log"
-	"math"
 
 	tea "github.com/charmbracelet/bubbletea"
 	"github.com/charmbracelet/glamour"
@@ -104,13 +103,21 @@ func getDateIndex(date time.Time) (int, int) {
 
 	x := 52 - difference - 1
 
-	if date.Local().Weekday() == time.Sunday {
-		x++
-	}
+func weeksAgo(date time.Time) int {
+	thisWeek := time.Now().AddDate(0, 0, -int(time.Now().Weekday())) // Most recent Sunday
+	compareWeek := date.AddDate(0, 0, -int(date.Weekday()))
+	result := (thisWeek.Sub(compareWeek).Hours() / 24 / 7)
+	return int(result)
+}
 
-	dayOfWeek := int(date.Local().Weekday())
+func getDateIndex(date time.Time) (int, int) {
 
-	return x, dayOfWeek
+	// Max index - number of weeks ago
+	x := 51 - weeksAgo(date.Local())
+
+	y := int(date.Local().Weekday())
+
+	return x, y
 }
 
 func parseCalToView(calData []CalDataPoint) {
