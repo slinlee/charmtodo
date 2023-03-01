@@ -64,7 +64,7 @@ func getIndexDate(x int, y int) time.Time {
 }
 
 func saveToFile() {
-
+	return // debug
 	// ** To save a file
 	file, err := json.MarshalIndent(calData, "", " ")
 	if err != nil {
@@ -89,19 +89,15 @@ func readFromFile() {
 
 }
 
-func getDateIndex(date time.Time) (int, int) {
+func readMockData() {
 
-	// calculate index
 	today := time.Now()
 
-	// How many weeks ago is this day
-	// - compared to the 'Sunday' of this week
-	difference := int(math.Ceil(
-		(today.
-			AddDate(0, 0, -int(today.Weekday())). // get the 'Sunday' of this week
-			Sub(date.Local()).Hours() / 24 / 7))) // calculate number of weeks ago
+	for i := 0; i < 350; i++ {
+		addCalData(today.AddDate(0, 0, -i), float64(i%2))
+	}
 
-	x := 52 - difference - 1
+}
 
 func weeksAgo(date time.Time) int {
 	thisWeek := time.Now().AddDate(0, 0, -int(time.Now().Weekday())) // Most recent Sunday
@@ -325,7 +321,9 @@ func (m model) View() string {
 }
 
 func main() {
-	readFromFile()
+	// readFromFile()
+	readMockData()
+
 	// Parse Data
 	parseCalToView(calData)
 
