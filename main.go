@@ -186,6 +186,9 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 		case "up", "k":
 			if m.selectedY > 0 {
 				m.selectedY--
+			} else if m.selectedY == 0 && m.selectedX > 0 {
+				m.selectedY = 6
+				m.selectedX--
 			}
 
 		case "down", "j":
@@ -194,6 +197,9 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 				(m.selectedX != 51 ||
 					m.selectedY < int(time.Now().Weekday())) {
 				m.selectedY++
+			} else if m.selectedY == 6 && m.selectedX != 51 {
+				m.selectedY = 0
+				m.selectedX++
 			}
 		case "right", "l":
 			// Don't allow users to scroll beyond today from the previous column
