@@ -157,9 +157,10 @@ func getScaleColor(value float64) string {
 }
 
 func initialModel() model {
+	todayX, todayY := getDateIndex(time.Now())
 	return model{
-		selectedX: 0,
-		selectedY: 0,
+		selectedX: todayX,
+		selectedY: todayY,
 	}
 }
 
