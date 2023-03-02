@@ -17,9 +17,9 @@ Enter
 Sleep 1.5s
 Type@250ms "hhh"
 Sleep 500ms
-Type@250ms "lllllljjjjllll"
+Type@250ms "hhhhhhkkhhjjll"
 Sleep 500ms
-Type@250ms "lllllljjjjllll"
+Type@250ms "jjkkhhjj"
 Sleep 5s
 
 
