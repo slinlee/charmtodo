@@ -63,7 +63,7 @@ func getIndexDate(x int, y int) time.Time {
 	return targetDate
 }
 
-func saveToFile() {
+func saveToFile(filename string) {
 	// return // debug
 	// ** To save a file
 	file, err := json.MarshalIndent(calData, "", " ")
@@ -71,13 +71,13 @@ func saveToFile() {
 		fmt.Printf("Alas, there's been an error: %v", err)
 		os.Exit(1)
 	}
-	_ = ioutil.WriteFile("s0br.json", file, 0644)
+	_ = ioutil.WriteFile(filename, file, 0644)
 }
 
-func readFromFile() {
+func readFromFile(filename string) {
 
 	// Get Data from File
-	content, err := ioutil.ReadFile("./s0br.json")
+	content, err := ioutil.ReadFile(filename)
 	if err != nil {
 		log.Fatal("Error when opening file: ", err)
 	}
@@ -187,7 +187,7 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 		case "ctrl+c":
 			return m, tea.Quit
 		case "q": // only save when using `q` to quit
-			saveToFile()
+			saveToFile("./s0br.json")
 			return m, tea.Quit
 		case "up", "k":
 			if m.selectedY > 0 {
@@ -328,7 +328,7 @@ func (m model) View() string {
 }
 
 func main() {
-	readFromFile()
+	readFromFile("./s0br.json")
 	// readMockData() // debug
 
 	// Parse Data
