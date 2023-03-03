@@ -64,7 +64,7 @@ func getIndexDate(x int, y int) time.Time {
 }
 
 func saveToFile() {
-	return // debug
+	// return // debug
 	// ** To save a file
 	file, err := json.MarshalIndent(calData, "", " ")
 	if err != nil {
@@ -90,6 +90,7 @@ func readFromFile() {
 }
 
 func readMockData() {
+	// Generate mock data for debugging
 
 	today := time.Now()
 
@@ -326,8 +327,8 @@ func (m model) View() string {
 }
 
 func main() {
-	// readFromFile()
-	readMockData()
+	readFromFile()
+	// readMockData() // debug
 
 	// Parse Data
 	parseCalToView(calData)
