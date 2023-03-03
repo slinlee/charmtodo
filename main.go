@@ -163,6 +163,7 @@ type viewDataPoint struct {
 
 func getScaleColor(value float64) string {
 	const numColors = 5
+	// Assume it's normalized between 0.0-1.0
 	const max = 1.0
 	const min = 0.0
 
