@@ -137,7 +137,9 @@ func parseCalToView(calData []CalDataPoint) {
 	for _, v := range calData {
 		x, y := getDateIndex(v.Date)
 		// Check if in range
-		if x > -1 && y > -1 {
+		// TODO: un-hardcode the X limit
+		if x > -1 && y > -1 &&
+			x < 52 && y < 7 {
 			viewData[x][y].actual += v.Value
 		}
 	}

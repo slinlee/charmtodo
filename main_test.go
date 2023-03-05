@@ -105,4 +105,10 @@ func TestDateOutsideRange(t *testing.T) {
 	testData = append(testData, dataOutsideRange)
 	parseCalToView(testData)
 
+	dateOutsideRangeFuture := now.AddDate(0, 1, 0)
+	dataOutsideRangeFuture := CalDataPoint{Date: dateOutsideRangeFuture, Value: 0.5}
+
+	testData = append(testData, dataOutsideRangeFuture)
+	parseCalToView(testData)
+
 }
