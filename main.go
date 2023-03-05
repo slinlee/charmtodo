@@ -101,10 +101,26 @@ func readMockData() {
 }
 
 func weeksAgo(date time.Time) int {
-	thisWeek := time.Now().AddDate(0, 0, -int(time.Now().Weekday())) // Most recent Sunday
-	compareWeek := date.AddDate(0, 0, -int(date.Weekday()))
-	result := (thisWeek.Sub(compareWeek).Hours() / 24 / 7)
+	today := truncateToDate(time.Now())
+	thisWeek := today.AddDate(0, 0, -int(today.Weekday())) // Most recent Sunday
+
+	compareDate := truncateToDate(date)
+	compareWeek := compareDate.AddDate(0, 0, -int(compareDate.Weekday()))
+
+	result := thisWeek.Sub(compareWeek).Hours() / 24 / 7
 	return int(result)
+}
+
+func truncateToDate(t time.Time) time.Time {
+	return time.Date(
+		t.Local().Year(),
+		t.Local().Month(),
+		t.Local().Day(),
+		0,
+		0,
+		0,
+		0,
+		t.Local().Location())
 }
 
 func getDateIndex(date time.Time) (int, int) {
