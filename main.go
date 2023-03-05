@@ -126,7 +126,7 @@ func truncateToDate(t time.Time) time.Time {
 func getDateIndex(date time.Time) (int, int) {
 
 	// Max index - number of weeks ago
-	x := 51 - weeksAgo(date.Local())
+	x := 51 - weeksAgo(date)
 
 	y := int(date.Local().Weekday())
 
