@@ -35,7 +35,7 @@ func TestManyDates(t *testing.T) {
 		actualDate := getIndexDate(expectedX, expectedY)
 		actualX, actualY := getDateIndex(actualDate)
 
-		t.Log("\n------\nactualDate:", actualDate, "\nnow:", now, "\nactualXY:", actualX, actualY, "\nexpectedXY:", expectedX, expectedY)
+		// t.Log("\n------\nactualDate:", actualDate, "\nnow:", now, "\nactualXY:", actualX, actualY, "\nexpectedXY:", expectedX, expectedY)
 		if actualDate.Month() != now.Month() ||
 			actualDate.Year() != now.Year() ||
 			actualDate.Day() != now.Day() {
@@ -66,11 +66,12 @@ func TestFileDates(t *testing.T) {
 		actualDate := getIndexDate(expectedX, expectedY)
 		actualX, actualY := getDateIndex(actualDate)
 
-		t.Log("\n------\nactualDate:", actualDate, "\ntestdate:", v.Date, "\nactualXY:", actualX, actualY, "\nexpectedXY:", expectedX, expectedY)
-		if actualDate.Month() != v.Date.Month() ||
-			actualDate.Year() != v.Date.Year() ||
-			actualDate.Day() != v.Date.Day() {
-			t.Fatalf("Date doesn't match: %v %v", actualDate, v.Date)
+		// t.Log("\n------\nactualDate:", actualDate, "\ntestdate:", v.Date, "\nactualXY:", actualX, actualY, "\nexpectedXY:", expectedX, expectedY)
+		// t.Log("\n------\nactualDate:", actualDate.ISOWeek(), "\ntestdate:", v.Date.ISOWeek(), "\nactualXY:", actualX, actualY, "\nexpectedXY:", expectedX, expectedY)
+		if actualDate.Month() != v.Date.Local().Month() ||
+			actualDate.Year() != v.Date.Local().Year() ||
+			actualDate.Day() != v.Date.Local().Day() {
+			t.Fatalf("Date doesn't match: \nresult: %v %v (%v %v) \nexpected:%v %v (%v %v)", actualDate, actualDate.Weekday(), actualX, actualY, v.Date.Local(), v.Date.Local().Weekday(), expectedX, expectedY)
 		}
 
 		if actualX != expectedX || actualY != expectedY {
