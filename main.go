@@ -136,7 +136,12 @@ func getDateIndex(date time.Time) (int, int) {
 func parseCalToView(calData []CalDataPoint) {
 	for _, v := range calData {
 		x, y := getDateIndex(v.Date)
-		viewData[x][y].actual += v.Value
+		// Check if in range
+		// TODO: un-hardcode the X limit
+		if x > -1 && y > -1 &&
+			x < 52 && y < 7 {
+			viewData[x][y].actual += v.Value
+		}
 	}
 	normalizeViewData()
 }
