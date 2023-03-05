@@ -84,3 +84,25 @@ func TestFileDates(t *testing.T) {
 	}
 
 }
+
+func TestDateOutsideRange(t *testing.T) {
+
+	now := time.Now()
+
+	dateInRange := now.AddDate(0, -1, -1)
+	var testData []CalDataPoint
+	parseCalToView(testData)
+
+	testData = append(testData, CalDataPoint{Date: dateInRange, Value: 1.0})
+	parseCalToView(testData)
+
+	testData = append(testData, CalDataPoint{Date: now, Value: 0.0})
+	parseCalToView(testData)
+
+	dateOutsideRange := now.AddDate(-1, -1, 0)
+	dataOutsideRange := CalDataPoint{Date: dateOutsideRange, Value: 0.5}
+
+	testData = append(testData, dataOutsideRange)
+	parseCalToView(testData)
+
+}
