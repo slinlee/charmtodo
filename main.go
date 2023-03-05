@@ -63,21 +63,21 @@ func getIndexDate(x int, y int) time.Time {
 	return targetDate
 }
 
-func saveToFile() {
-
+func saveToFile(filename string) {
+	// return // debug
 	// ** To save a file
 	file, err := json.MarshalIndent(calData, "", " ")
 	if err != nil {
 		fmt.Printf("Alas, there's been an error: %v", err)
 		os.Exit(1)
 	}
-	_ = ioutil.WriteFile("s0br.json", file, 0644)
+	_ = ioutil.WriteFile(filename, file, 0644)
 }
 
-func readFromFile() {
+func readFromFile(filename string) {
 
 	// Get Data from File
-	content, err := ioutil.ReadFile("./s0br.json")
+	content, err := ioutil.ReadFile(filename)
 	if err != nil {
 		log.Fatal("Error when opening file: ", err)
 	}
@@ -89,19 +89,48 @@ func readFromFile() {
 
 }
 
-func getDateIndex(date time.Time) (int, int) {
+func readMockData() {
+	// Generate mock data for debugging
 
-	// calculate index
 	today := time.Now()
 
-	// How many weeks ago is this day
-	difference := int(today.Sub(date).Hours() / 24 / 7)
+	for i := 0; i < 350; i++ {
+		addCalData(today.AddDate(0, 0, -i), float64(i%2))
+	}
 
-	dayOfWeek := int(date.Weekday())
+}
 
-	x := 52 - difference - 1
+func weeksAgo(date time.Time) int {
+	today := truncateToDate(time.Now())
+	thisWeek := today.AddDate(0, 0, -int(today.Weekday())) // Most recent Sunday
 
-	return x, dayOfWeek
+	compareDate := truncateToDate(date)
+	compareWeek := compareDate.AddDate(0, 0, -int(compareDate.Weekday()))
+
+	result := thisWeek.Sub(compareWeek).Hours() / 24 / 7
+	return int(result)
+}
+
+func truncateToDate(t time.Time) time.Time {
+	return time.Date(
+		t.Local().Year(),
+		t.Local().Month(),
+		t.Local().Day(),
+		0,
+		0,
+		0,
+		0,
+		t.Local().Location())
+}
+
+func getDateIndex(date time.Time) (int, int) {
+
+	// Max index - number of weeks ago
+	x := 51 - weeksAgo(date)
+
+	y := int(date.Local().Weekday())
+
+	return x, y
 }
 
 func parseCalToView(calData []CalDataPoint) {
@@ -150,6 +179,7 @@ type viewDataPoint struct {
 
 func getScaleColor(value float64) string {
 	const numColors = 5
+	// Assume it's normalized between 0.0-1.0
 	const max = 1.0
 	const min = 0.0
 
@@ -173,7 +203,7 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 		case "ctrl+c":
 			return m, tea.Quit
 		case "q": // only save when using `q` to quit
-			saveToFile()
+			saveToFile("./s0br.json")
 			return m, tea.Quit
 		case "up", "k":
 			if m.selectedY > 0 {
@@ -314,7 +344,9 @@ func (m model) View() string {
 }
 
 func main() {
-	readFromFile()
+	readFromFile("./s0br.json")
+	// readMockData() // debug
+
 	// Parse Data
 	parseCalToView(calData)
 
