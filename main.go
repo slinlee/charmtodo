@@ -99,7 +99,7 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 		}
 
 	}
-	// m.heatmap, cmd = m.heatmap.Update(msg)
+	m.heatmap, cmd = m.heatmap.Update(msg)
 
 	return m, cmd
 }
