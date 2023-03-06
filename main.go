@@ -67,7 +67,7 @@ func readFromFile(filename string) []heatmap.CalDataPoint {
 
 func initialModel() model {
 	fileData := readFromFile("./s0br.json")
-	hm := heatmap.New(&fileData)
+	hm := heatmap.New(fileData)
 	return model{
 		calData: fileData,
 		heatmap: hm,
@@ -88,7 +88,7 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 			m.saveToFile("./s0br.json")
 			return m, tea.Quit
 		case "enter", " ":
-			// TODO
+			// TODO - Decide where to handle this
 			// Hard coded to add a new entry with value `1.0`
 			// addCalData(
 			// 	getIndexDate(m.selectedX, m.selectedY),
