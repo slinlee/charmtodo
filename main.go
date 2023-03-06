@@ -7,8 +7,6 @@ import (
 	"log"
 
 	tea "github.com/charmbracelet/bubbletea"
-	"github.com/charmbracelet/glamour"
-	"github.com/charmbracelet/lipgloss"
 
 	heatmap "github.com/slinlee/bubbletea-heatmap"
 
@@ -21,16 +19,16 @@ type model struct {
 	calData []heatmap.CalDataPoint
 }
 
-func addCalData(date time.Time, val float64) {
+func (m model) addCalData(date time.Time, val float64) {
 	// Create new cal data point and add to cal data
 	newPoint := heatmap.CalDataPoint{date, val}
-	calData = append(calData, newPoint)
+	m.calData = append(m.calData, newPoint)
 }
 
-func saveToFile(filename string) {
+func (m model) saveToFile(filename string) {
 	// return // debug
 	// ** To save a file
-	file, err := json.MarshalIndent(calData, "", " ")
+	file, err := json.MarshalIndent(m.calData, "", " ")
 	if err != nil {
 		fmt.Printf("Alas, there's been an error: %v", err)
 		os.Exit(1)
@@ -38,7 +36,8 @@ func saveToFile(filename string) {
 	_ = ioutil.WriteFile(filename, file, 0644)
 }
 
-func readFromFile(filename string) {
+func readFromFile(filename string) []heatmap.CalDataPoint {
+	var fileData []heatmap.CalDataPoint
 
 	// Get Data from File
 	content, err := ioutil.ReadFile(filename)
@@ -46,28 +45,31 @@ func readFromFile(filename string) {
 		log.Fatal("Error when opening file: ", err)
 	}
 
-	err = json.Unmarshal(content, &calData)
+	err = json.Unmarshal(content, &fileData)
 	if err != nil {
 		log.Fatal("Error during Unmarshall(): ", err)
 	}
 
-}
-
-func readMockData() {
-	// Generate mock data for debugging
-
-	today := time.Now()
-
-	for i := 0; i < 350; i++ {
-		addCalData(today.AddDate(0, 0, -i), float64(i%2))
-	}
+	return fileData
 
 }
+
+// func readMockData() {
+// 	// Generate mock data for debugging
+
+// 	today := time.Now()
+
+// 	for i := 0; i < 350; i++ {
+// 		addCalData(today.AddDate(0, 0, -i), float64(i%2))
+// 	}
+
+// }
 
 func initialModel() model {
-	hm := heatmap.New()
+	fileData := readFromFile("./s0br.json")
+	hm := heatmap.New(&fileData)
 	return model{
-		calData: []heatmap.CalDataPoint,
+		calData: fileData,
 		heatmap: hm,
 	}
 }
@@ -75,15 +77,18 @@ func initialModel() model {
 func (m model) Init() tea.Cmd { return nil }
 
 func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
+	var cmd tea.Cmd
+
 	switch msg := msg.(type) {
 	case tea.KeyMsg:
 		switch msg.String() {
 		case "ctrl+c":
 			return m, tea.Quit
 		case "q": // only save when using `q` to quit
-			saveToFile("./s0br.json")
+			m.saveToFile("./s0br.json")
 			return m, tea.Quit
 		case "enter", " ":
+			// TODO
 			// Hard coded to add a new entry with value `1.0`
 			// addCalData(
 			// 	getIndexDate(m.selectedX, m.selectedY),
@@ -94,7 +99,7 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 		}
 
 	}
-	m.heatmap, cmd = m.heatmap.Update(msg)
+	// m.heatmap, cmd = m.heatmap.Update(msg)
 
 	return m, cmd
 }
@@ -102,28 +107,26 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 func (m model) View() string {
 	// The header
 
-	theTime := getIndexDate(m.selectedX, m.selectedY) //time.Now()
+	// theTime := getIndexDate(m.selectedX, m.selectedY) //time.Now()
 
-	title, _ := glamour.Render(theTime.Format("# Monday, January 02, 2006"), "dark")
-	s := title
+	// title, _ := glamour.Render(theTime.Format("# Monday, January 02, 2006"), "dark")
+	// s := title
 
-	selectedDetail := "    Value: " + fmt.Sprint(viewData[m.selectedX][m.selectedY].actual) + " normalized: " + fmt.Sprint(viewData[m.selectedX][m.selectedY].normalized) + "\n\n"
+	// selectedDetail := "    Value: " + fmt.Sprint(viewData[m.selectedX][m.selectedY].actual) + " normalized: " + fmt.Sprint(viewData[m.selectedX][m.selectedY].normalized) + "\n\n"
 
-	s += selectedDetail
+	// s += selectedDetail
 
-	s += m.heatmap.View()
+	s := m.heatmap.View()
 
 	// The footer
 	s += "\nPress q to quit.\n"
-
 
 	return s
 }
 
 func main() {
-	readFromFile("./s0br.json")
+	// m.readFromFile("./s0br.json")
 	// readMockData() // debug
-
 
 	p := tea.NewProgram(initialModel())
 	if _, err := p.Run(); err != nil {
