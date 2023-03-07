@@ -21,7 +21,7 @@ type model struct {
 
 func (m model) addCalData(date time.Time, val float64) {
 	// Create new cal data point and add to cal data
-	newPoint := heatmap.CalDataPoint{date, val}
+	newPoint := heatmap.CalDataPoint{Date: date, Value: val}
 	m.calData = append(m.calData, newPoint)
 }
 
