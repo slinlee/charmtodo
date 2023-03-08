@@ -1,2 +1,4 @@
 .direnv
 s0br.json
+coverage.txt
+dist/
