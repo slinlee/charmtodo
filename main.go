@@ -31,7 +31,7 @@ func (m model) saveToFile(filename string) {
 		fmt.Printf("Alas, there's been an error: %v", err)
 		os.Exit(1)
 	}
-	_ = os.WriteFile(filename, file, 0o644)
+	_ = os.WriteFile(filename, file, 0644)
 }
 
 func readFromFile(filename string) []heatmap.CalDataPoint {
@@ -109,6 +109,7 @@ func (m model) View() string {
 }
 
 func main() {
+	readFromFile("./s0br.json")
 	p := tea.NewProgram(initialModel())
 	if _, err := p.Run(); err != nil {
 		fmt.Printf("Alas, there's been an error: %v", err)
