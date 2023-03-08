@@ -3,15 +3,13 @@ package main
 import (
 	"encoding/json"
 	"fmt"
-	"io/ioutil"
 	"log"
+	"os"
+	"time"
 
 	tea "github.com/charmbracelet/bubbletea"
 	"github.com/charmbracelet/glamour"
 	"github.com/charmbracelet/lipgloss"
-
-	"os"
-	"time"
 )
 
 type model struct {
@@ -124,7 +122,6 @@ func truncateToDate(t time.Time) time.Time {
 }
 
 func getDateIndex(date time.Time) (int, int) {
-
 	// Max index - number of weeks ago
 	x := 51 - weeksAgo(date)
 
@@ -164,7 +161,6 @@ func normalizeViewData() {
 				max = val.actual
 			}
 		}
-
 	}
 
 	// Normalize the data
@@ -259,7 +255,7 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 func (m model) View() string {
 	// The header
 
-	theTime := getIndexDate(m.selectedX, m.selectedY) //time.Now()
+	theTime := getIndexDate(m.selectedX, m.selectedY) // time.Now()
 
 	title, _ := glamour.Render(theTime.Format("# Monday, January 02, 2006"), "dark")
 	s := title
@@ -268,13 +264,13 @@ func (m model) View() string {
 
 	s += selectedDetail
 
-	var labelStyle = lipgloss.NewStyle().Foreground(lipgloss.Color("#888888"))
+	labelStyle := lipgloss.NewStyle().Foreground(lipgloss.Color("#888888"))
 
-	var boxStyle = lipgloss.NewStyle().
+	boxStyle := lipgloss.NewStyle().
 		PaddingRight(1).
 		Foreground(lipgloss.Color(scaleColors[2]))
 
-	var boxSelectedStyle = boxStyle.Copy().
+	boxSelectedStyle := boxStyle.Copy().
 		Background(lipgloss.Color("#9999ff")).
 		Foreground(lipgloss.Color(scaleColors[0]))
 

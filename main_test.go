@@ -51,7 +51,6 @@ func TestManyDates(t *testing.T) {
 		}
 		now = now.AddDate(0, 0, -1)
 	}
-
 }
 
 func TestFileDates(t *testing.T) {
@@ -82,11 +81,9 @@ func TestFileDates(t *testing.T) {
 				expectedX, expectedY)
 		}
 	}
-
 }
 
 func TestDateOutsideRange(t *testing.T) {
-
 	now := time.Now()
 
 	dateInRange := now.AddDate(0, -1, -1)
