@@ -3,15 +3,13 @@ package main
 import (
 	"encoding/json"
 	"fmt"
-	"io/ioutil"
 	"log"
+	"os"
+	"time"
 
 	tea "github.com/charmbracelet/bubbletea"
 	"github.com/charmbracelet/glamour"
 	"github.com/charmbracelet/lipgloss"
-
-	"os"
-	"time"
 )
 
 type model struct {
@@ -71,13 +69,12 @@ func saveToFile(filename string) {
 		fmt.Printf("Alas, there's been an error: %v", err)
 		os.Exit(1)
 	}
-	_ = ioutil.WriteFile(filename, file, 0644)
+	_ = os.WriteFile(filename, file, 0o644)
 }
 
 func readFromFile(filename string) {
-
 	// Get Data from File
-	content, err := ioutil.ReadFile(filename)
+	content, err := os.ReadFile(filename)
 	if err != nil {
 		log.Fatal("Error when opening file: ", err)
 	}
@@ -86,19 +83,18 @@ func readFromFile(filename string) {
 	if err != nil {
 		log.Fatal("Error during Unmarshall(): ", err)
 	}
-
 }
 
-func readMockData() {
-	// Generate mock data for debugging
+// func readMockData() {
+// 	// Generate mock data for debugging
 
-	today := time.Now()
+// 	today := time.Now()
 
-	for i := 0; i < 350; i++ {
-		addCalData(today.AddDate(0, 0, -i), float64(i%2))
-	}
+// 	for i := 0; i < 350; i++ {
+// 		addCalData(today.AddDate(0, 0, -i), float64(i%2))
+// 	}
 
-}
+// }
 
 func weeksAgo(date time.Time) int {
 	today := truncateToDate(time.Now())
@@ -124,7 +120,6 @@ func truncateToDate(t time.Time) time.Time {
 }
 
 func getDateIndex(date time.Time) (int, int) {
-
 	// Max index - number of weeks ago
 	x := 51 - weeksAgo(date)
 
@@ -164,7 +159,6 @@ func normalizeViewData() {
 				max = val.actual
 			}
 		}
-
 	}
 
 	// Normalize the data
@@ -186,7 +180,7 @@ func getScaleColor(value float64) string {
 	const numColors = 5
 	// Assume it's normalized between 0.0-1.0
 	const max = 1.0
-	const min = 0.0
+	// const min = 0.0
 
 	return scaleColors[int((value/max)*(numColors-1))]
 }
@@ -259,7 +253,7 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 func (m model) View() string {
 	// The header
 
-	theTime := getIndexDate(m.selectedX, m.selectedY) //time.Now()
+	theTime := getIndexDate(m.selectedX, m.selectedY) // time.Now()
 
 	title, _ := glamour.Render(theTime.Format("# Monday, January 02, 2006"), "dark")
 	s := title
@@ -268,13 +262,13 @@ func (m model) View() string {
 
 	s += selectedDetail
 
-	var labelStyle = lipgloss.NewStyle().Foreground(lipgloss.Color("#888888"))
+	labelStyle := lipgloss.NewStyle().Foreground(lipgloss.Color("#888888"))
 
-	var boxStyle = lipgloss.NewStyle().
+	boxStyle := lipgloss.NewStyle().
 		PaddingRight(1).
 		Foreground(lipgloss.Color(scaleColors[2]))
 
-	var boxSelectedStyle = boxStyle.Copy().
+	boxSelectedStyle := boxStyle.Copy().
 		Background(lipgloss.Color("#9999ff")).
 		Foreground(lipgloss.Color(scaleColors[0]))
 
