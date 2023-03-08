@@ -3,13 +3,16 @@ package main
 import (
 	"encoding/json"
 	"fmt"
-	"io/ioutil"
 	"log"
+	"os"
+	"time"
 
 	tea "github.com/charmbracelet/bubbletea"
 
 	heatmap "github.com/slinlee/bubbletea-heatmap"
 
+	"github.com/charmbracelet/glamour"
+	"github.com/charmbracelet/lipgloss"
 	"os"
 	"time"
 )
@@ -33,14 +36,14 @@ func (m model) saveToFile(filename string) {
 		fmt.Printf("Alas, there's been an error: %v", err)
 		os.Exit(1)
 	}
-	_ = ioutil.WriteFile(filename, file, 0644)
+	_ = os.WriteFile(filename, file, 0o644)
 }
 
 func readFromFile(filename string) []heatmap.CalDataPoint {
 	var fileData []heatmap.CalDataPoint
 
 	// Get Data from File
-	content, err := ioutil.ReadFile(filename)
+	content, err := os.ReadFile(filename)
 	if err != nil {
 		log.Fatal("Error when opening file: ", err)
 	}
@@ -51,19 +54,7 @@ func readFromFile(filename string) []heatmap.CalDataPoint {
 	}
 
 	return fileData
-
 }
-
-// func readMockData() {
-// 	// Generate mock data for debugging
-
-// 	today := time.Now()
-
-// 	for i := 0; i < 350; i++ {
-// 		addCalData(today.AddDate(0, 0, -i), float64(i%2))
-// 	}
-
-// }
 
 func initialModel() model {
 	fileData := readFromFile("./s0br.json")
@@ -117,7 +108,6 @@ func (m model) View() string {
 	// s += selectedDetail
 
 	s := m.heatmap.View()
-
 	// The footer
 	s += "\nPress q to quit.\n"
 
@@ -125,8 +115,6 @@ func (m model) View() string {
 }
 
 func main() {
-	// m.readFromFile("./s0br.json")
-	// readMockData() // debug
 
 	p := tea.NewProgram(initialModel())
 	if _, err := p.Run(); err != nil {
