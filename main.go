@@ -10,11 +10,6 @@ import (
 	tea "github.com/charmbracelet/bubbletea"
 
 	heatmap "github.com/slinlee/bubbletea-heatmap"
-
-	"github.com/charmbracelet/glamour"
-	"github.com/charmbracelet/lipgloss"
-	"os"
-	"time"
 )
 
 type model struct {
@@ -88,7 +83,6 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 			// parseCalToView(calData)
 
 		}
-
 	}
 	m.heatmap, cmd = m.heatmap.Update(msg)
 
@@ -115,7 +109,6 @@ func (m model) View() string {
 }
 
 func main() {
-
 	p := tea.NewProgram(initialModel())
 	if _, err := p.Run(); err != nil {
 		fmt.Printf("Alas, there's been an error: %v", err)
