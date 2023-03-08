@@ -108,4 +108,5 @@ func TestDateOutsideRange(t *testing.T) {
 	testData = append(testData, dataOutsideRangeFuture)
 	parseCalToView(testData)
 
+	t.Logf("TestOutsideRange Passed")
 }

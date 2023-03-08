@@ -69,13 +69,12 @@ func saveToFile(filename string) {
 		fmt.Printf("Alas, there's been an error: %v", err)
 		os.Exit(1)
 	}
-	_ = ioutil.WriteFile(filename, file, 0644)
+	_ = os.WriteFile(filename, file, 0o644)
 }
 
 func readFromFile(filename string) {
-
 	// Get Data from File
-	content, err := ioutil.ReadFile(filename)
+	content, err := os.ReadFile(filename)
 	if err != nil {
 		log.Fatal("Error when opening file: ", err)
 	}
@@ -84,19 +83,18 @@ func readFromFile(filename string) {
 	if err != nil {
 		log.Fatal("Error during Unmarshall(): ", err)
 	}
-
 }
 
-func readMockData() {
-	// Generate mock data for debugging
+// func readMockData() {
+// 	// Generate mock data for debugging
 
-	today := time.Now()
+// 	today := time.Now()
 
-	for i := 0; i < 350; i++ {
-		addCalData(today.AddDate(0, 0, -i), float64(i%2))
-	}
+// 	for i := 0; i < 350; i++ {
+// 		addCalData(today.AddDate(0, 0, -i), float64(i%2))
+// 	}
 
-}
+// }
 
 func weeksAgo(date time.Time) int {
 	today := truncateToDate(time.Now())
@@ -182,7 +180,7 @@ func getScaleColor(value float64) string {
 	const numColors = 5
 	// Assume it's normalized between 0.0-1.0
 	const max = 1.0
-	const min = 0.0
+	// const min = 0.0
 
 	return scaleColors[int((value/max)*(numColors-1))]
 }
