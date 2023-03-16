@@ -116,7 +116,7 @@ func main() {
 	defer f.Close()
 
 	readFromFile("./s0br.json")
-	p := tea.NewProgram(initialModel())
+	p := tea.NewProgram(initialModel(), tea.WithAltScreen())
 	if _, err := p.Run(); err != nil {
 		log.Fatal(err)
 	}
